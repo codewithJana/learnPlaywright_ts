@@ -1,0 +1,30 @@
+Locators in Playwright:
+    - INstead of findelements ---> locators or getBy....
+    - locator ---> action
+    - few getBy:
+        - getByRole
+        - getByLabel
+        - getByText
+        - getByPlaceholder
+        - getByTestID
+
+CSS selector: #,.,//,[]
+Selenium                            Playwright
+By.id("user-name)                   page.locator("#user-name)
+By.className("primary_header")      page.locator(".primary_header")
+By.tagName("input)                  page.locator("input")
+
+getByRole:
+1. button
+2. textBox
+3. link
+4. checkbox
+5. Radiobutton
+.....
+
+await page.getByRole('textbox',{name: 'Username'}).fill('standard_user');
+await page.getByRole('button', {name: 'Login'}).click();
+-->textBox/button and Username
+    - textbox : element's aria role  : accessibility Role
+    - button : element's aria role
+    - Username : accessibility name (id, name and placeholder)
