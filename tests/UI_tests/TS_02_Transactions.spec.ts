@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { TEST_USERS } from "../resources/testData";
+import { TEST_USERS } from "../../resources/testData";
 
 test.describe("Module1: SecureBank-loginflow", () =>{
 

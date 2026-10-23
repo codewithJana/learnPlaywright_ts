@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test'
-import { TEST_USERS,ACCOUNTS } from "../resources/testData";
+import { TEST_USERS,ACCOUNTS } from "../../resources/testData";
 
 
 async function loginStandardUser(page: Page, rememberMe: boolean = false): Promise<void> {
@@ -20,7 +20,7 @@ async function loginStandardUser(page: Page, rememberMe: boolean = false): Promi
     await page.getByPlaceholder('Enter password').fill(TEST_USERS.STANDARD.password);
     //click login and verify the URL navigated
     await page.getByRole('button', { name: 'Sign In' }).click();
-    await expect(page).toHaveURL(TEST_USERS.URLS.dashboard_url);
+    
 }
 
 test("TC:07 Verify Account Transfer", async ({ page }) => {

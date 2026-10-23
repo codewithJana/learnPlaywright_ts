@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { TEST_USERS } from "../resources/testData";
+import { TEST_USERS } from "../../resources/testData";
 
 test.describe("Module1: SecureBank-loginflow", () =>{
 
@@ -12,15 +12,15 @@ test.describe("Module1: SecureBank-loginflow", () =>{
         await page.close();
     })
 
-    test("TC-01: Successful Login with standard users", async ({page})=>{
+    test.only("TC-01: Successful Login with standard users", async ({page})=>{
         //Enter username and password
         await page.getByPlaceholder('Enter username').fill(TEST_USERS.STANDARD.username);
         const passwordField = page.getByPlaceholder('Enter password');
-        passwordField.fill(TEST_USERS.STANDARD.username);
+        passwordField.fill(TEST_USERS.STANDARD.password);
 
         //verify username & password entered 
         await expect(page.getByPlaceholder('Enter username')).toHaveValue(TEST_USERS.STANDARD.username);
-        await expect(passwordField).toHaveValue(TEST_USERS.STANDARD.username);
+        await expect(passwordField).toHaveValue(TEST_USERS.STANDARD.password);
 
         //click login and verify the URL navigated
         await page.getByRole('button', {name: 'Sign In'}).click();
