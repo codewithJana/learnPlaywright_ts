@@ -62,7 +62,7 @@ test.describe("SauceDemo: Login Tests",{tag: '@ui , @login'} ,() => {
 
     });
 
-    test.only("checkbox selection", async({ page })=> {
+    test("checkbox selection", async({ page })=> {
         await page.goto('https://the-internet.herokuapp.com/login');
         await page.getByLabel('Username').fill('tomsmith');
         await page.getByLabel('Password').fill('SuperSecretPassword!');
