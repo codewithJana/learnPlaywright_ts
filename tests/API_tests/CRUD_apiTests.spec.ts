@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe("API Tests", () => {
 
-    test('GET - all test tags', async ({ request }) => {
+    test('GET - all test tags', {tag: '@api, @smoke'}, async ({ request }) => {
         const tagsResponse = await request.get('/api/tags');
         const tagsResponseJSON = await tagsResponse.json();
 
@@ -21,8 +21,9 @@ test.describe("API Tests", () => {
     //     console.log(authtoken)
     // });
 
-    test('POST - Create article', {tag: '@Regression'}, async ({ request }) => {
+    test('POST - Create article', { tag: '@Regression , @api' }, async ({ request }) => {
 
+        //Login and get the token
         const tokenResponse = await request.post('/api/users/login',
             { data: { "user": { "email": "pentester@test.com", "password": "welcome123" } } }
         );
@@ -30,12 +31,12 @@ test.describe("API Tests", () => {
         const authtoken = tokenResponseJSON.user.token;
         console.log(authtoken)
         const finalToken = 'Token ' + authtoken
-
+        //create article
         const articleResponse = await request.post('/api/articles',
             {
                 data: {
                     "article": {
-                        "title": "AB testing - New",
+                        "title": "AB testing - new",
                         "description": "one of the basic testing",
                         "body": "test body for AB testing",
                         "tagList": {}
@@ -49,10 +50,12 @@ test.describe("API Tests", () => {
         const articleResponseJSON = await articleResponse.json();
         console.log(articleResponseJSON)
         const articleSlug = articleResponseJSON.article.slug;
-        console.log(`article slug: ${articleSlug}`)
+        console.log(`------article slug: ${articleSlug}-------------`)
+        const NewarticleTitle = articleResponseJSON.article.title;
+        console.log(`------New Post title: ${NewarticleTitle}-------------`);
 
-
-       const updatearticleResponse = await request.put(`/api/articles/${articleSlug}`,
+        //update articles
+        const updateArticleResponse = await request.put(`/api/articles/${articleSlug}`,
             {
                 data: {
                     "article": {
@@ -67,37 +70,27 @@ test.describe("API Tests", () => {
                 }
             }
         );
-        const updatearticleResponseJSON = await updatearticleResponse.json();
-        console.log(updatearticleResponseJSON)
-        const updatearticleSlug = updatearticleResponseJSON.article.slug;
-        console.log(`article slug: ${updatearticleSlug}`)
 
+        const updateArticleResponseJSON = await updateArticleResponse.json();
+        console.log(updateArticleResponseJSON);
+        expect(updateArticleResponse.status()).toEqual(200);
+        const updatedarticleTitle = updateArticleResponseJSON.article.title;
+        console.log(`------Updated Post title: ${updatedarticleTitle}-------------`)
+        expect(NewarticleTitle).not.toBe(updatedarticleTitle);
 
-        const deleteArticleResponse = await request.delete(`/api/articles/${updatearticleSlug}`, {
-            headers: {
-                Authorization: finalToken
+        const UpdatedarticleSlug = updateArticleResponseJSON.article.slug;
+        console.log(`------updated article slug: ${UpdatedarticleSlug}-------------`)
+
+        //delete article
+        const DeleteArticleResponse = await request.delete(`/api/articles/${UpdatedarticleSlug}`,
+            {
+                headers: {
+                    Authorization: finalToken
+                }
             }
-        });
-        expect(deleteArticleResponse.status()).toEqual(204);
+        );
 
-        const getallArticleResponse = await request.get('/api/articles', {
-            headers: {
-                Authorization: finalToken
-            }
-        });
-
-        const allarticleResponseJSON = await getallArticleResponse.json();
-        console.log(allarticleResponseJSON)
-        const firstArticleSlug = allarticleResponseJSON.articles[0].slug;
-        console.log(`--------first article slug ${firstArticleSlug}------------`)
-
-
+        expect(DeleteArticleResponse.status()).toEqual(204);
     });
-
-
-
-
-
-
 
 });

@@ -15,7 +15,7 @@ test("SaudeDemo: verify current page URL", async({page}) => {
 });
 */
 
-test.describe("SauceDemo: Login Tests", () => {
+test.describe("SauceDemo: Login Tests",{tag: '@ui , @login'} ,() => {
 
     test("SaudeDemo: verify page title", async ({ page }) => {
 
