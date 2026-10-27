@@ -23,3 +23,4 @@ if(true){
     console.log(browser);
 }
 //console.log(browser);
+//var is not a blocked scope
